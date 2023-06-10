@@ -12,7 +12,6 @@ namespace API
         public string code { get; set; }
         [Required]
         public string book { get; set; }
-        public int? cant_reserved { get; set; }
         [Required]
         public string description { get; set; }
 

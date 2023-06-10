@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20230609172715_MigracionPractica")]
+    [Migration("20230610004400_MigracionPractica")]
     partial class MigracionPractica
     {
         /// <inheritdoc />
@@ -40,9 +40,6 @@ namespace API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("cant_reserved")
-                        .HasColumnType("int");
-
                     b.Property<string>("code")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -60,7 +57,6 @@ namespace API.Migrations
                         {
                             id = 1,
                             book = "Yvette Corwin V",
-                            cant_reserved = 0,
                             code = "codigolibro1",
                             description = "Ea non nesciunt distinctio aspernatur eum id id"
                         },
@@ -68,7 +64,6 @@ namespace API.Migrations
                         {
                             id = 2,
                             book = "Felipa Lindgren DVM",
-                            cant_reserved = 0,
                             code = "codigolibro2",
                             description = "lure quibusdam aut quo qui pariatur eum libero."
                         });
@@ -94,11 +89,37 @@ namespace API.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("book_id");
-
-                    b.HasIndex("user_id");
-
                     b.ToTable("Reserves");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            book_id = 1,
+                            reserved_at = new DateTime(2023, 6, 2, 20, 44, 0, 757, DateTimeKind.Local).AddTicks(9572),
+                            user_id = 1
+                        },
+                        new
+                        {
+                            id = 2,
+                            book_id = 2,
+                            reserved_at = new DateTime(2023, 3, 1, 20, 44, 0, 757, DateTimeKind.Local).AddTicks(9617),
+                            user_id = 1
+                        },
+                        new
+                        {
+                            id = 3,
+                            book_id = 1,
+                            reserved_at = new DateTime(2023, 5, 30, 20, 44, 0, 757, DateTimeKind.Local).AddTicks(9620),
+                            user_id = 2
+                        },
+                        new
+                        {
+                            id = 4,
+                            book_id = 2,
+                            reserved_at = new DateTime(2023, 6, 8, 20, 44, 0, 757, DateTimeKind.Local).AddTicks(9622),
+                            user_id = 2
+                        });
                 });
 
             modelBuilder.Entity("API.User", b =>
@@ -140,25 +161,6 @@ namespace API.Migrations
                             faculty = "Animi laboriosam voluptatum assumenda odit.",
                             name = "Antoinette Mayer"
                         });
-                });
-
-            modelBuilder.Entity("API.Reserve", b =>
-                {
-                    b.HasOne("API.Book", "book")
-                        .WithMany()
-                        .HasForeignKey("book_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.User", "user")
-                        .WithMany()
-                        .HasForeignKey("user_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("book");
-
-                    b.Navigation("user");
                 });
 #pragma warning restore 612, 618
         }

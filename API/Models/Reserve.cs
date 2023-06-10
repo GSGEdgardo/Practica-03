@@ -11,11 +11,11 @@ namespace API
 
         [Required]
         [ForeignKey("user_id")]
-        public virtual User user { get; set; }
+        public int user_id { get; set; }
         
         [Required]
         [ForeignKey("book_id")]
-        public virtual Book book { get; set; }
+        public int book_id { get; set; }
 
         [Required]
         public DateTime? reserved_at { get; set;}

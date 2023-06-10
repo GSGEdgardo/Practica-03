@@ -21,12 +21,26 @@ namespace API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     book = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    cant_reserved = table.Column<int>(type: "int", nullable: true),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Books", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reserves",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    user_id = table.Column<int>(type: "int", nullable: false),
+                    book_id = table.Column<int>(type: "int", nullable: false),
+                    reserved_at = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reserves", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,40 +58,24 @@ namespace API.Migrations
                     table.PrimaryKey("PK_Users", x => x.id);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Reserves",
-                columns: table => new
+            migrationBuilder.InsertData(
+                table: "Books",
+                columns: new[] { "id", "book", "code", "description" },
+                values: new object[,]
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    user_id = table.Column<int>(type: "int", nullable: false),
-                    book_id = table.Column<int>(type: "int", nullable: false),
-                    reserved_at = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reserves", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Reserves_Books_book_id",
-                        column: x => x.book_id,
-                        principalTable: "Books",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Reserves_Users_user_id",
-                        column: x => x.user_id,
-                        principalTable: "Users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                    { 1, "Yvette Corwin V", "codigolibro1", "Ea non nesciunt distinctio aspernatur eum id id" },
+                    { 2, "Felipa Lindgren DVM", "codigolibro2", "lure quibusdam aut quo qui pariatur eum libero." }
                 });
 
             migrationBuilder.InsertData(
-                table: "Books",
-                columns: new[] { "id", "book", "cant_reserved", "code", "description" },
+                table: "Reserves",
+                columns: new[] { "id", "book_id", "reserved_at", "user_id" },
                 values: new object[,]
                 {
-                    { 1, "Yvette Corwin V", 0, "codigolibro1", "Ea non nesciunt distinctio aspernatur eum id id" },
-                    { 2, "Felipa Lindgren DVM", 0, "codigolibro2", "lure quibusdam aut quo qui pariatur eum libero." }
+                    { 1, 1, new DateTime(2023, 6, 2, 20, 44, 0, 757, DateTimeKind.Local).AddTicks(9572), 1 },
+                    { 2, 2, new DateTime(2023, 3, 1, 20, 44, 0, 757, DateTimeKind.Local).AddTicks(9617), 1 },
+                    { 3, 1, new DateTime(2023, 5, 30, 20, 44, 0, 757, DateTimeKind.Local).AddTicks(9620), 2 },
+                    { 4, 2, new DateTime(2023, 6, 8, 20, 44, 0, 757, DateTimeKind.Local).AddTicks(9622), 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -88,26 +86,16 @@ namespace API.Migrations
                     { 1, "codigo1", "Voluptatibus quia voluptatem quia nisi.", "Prof. Aleen Konopelsk" },
                     { 2, "codigo2", "Animi laboriosam voluptatum assumenda odit.", "Antoinette Mayer" }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Reserves_book_id",
-                table: "Reserves",
-                column: "book_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Reserves_user_id",
-                table: "Reserves",
-                column: "user_id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Reserves");
+                name: "Books");
 
             migrationBuilder.DropTable(
-                name: "Books");
+                name: "Reserves");
 
             migrationBuilder.DropTable(
                 name: "Users");
