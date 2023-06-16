@@ -3,18 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API
 {
-    public class Book
+    public class Dish
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         [Required]
-        public string code { get; set; }
+        public string name { get; set; }
         [Required]
-        public string book { get; set; }
-        [Required]
-        public string description { get; set; }
-
-
+        public int price { get; set; }
     }
 }

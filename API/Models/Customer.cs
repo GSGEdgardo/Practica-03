@@ -3,17 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API
 {
-    public class User
+    public class Customer
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         [Required]
-        public string code { get; set; }
-        [Required]
         public string name { get; set; }
         [Required]
-        public string faculty { get; set; }
-
+        public string rut { get; set; }
     }
 }

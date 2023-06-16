@@ -9,9 +9,9 @@ namespace API.Data
         {
         }
 
-        public DbSet<Book> Books { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Reserve> Reserves { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Dish> Dishes { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -20,19 +20,18 @@ namespace API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasData(
-                new User { id = 1, code = "codigo1", name = "Prof. Aleen Konopelsk", faculty = "Voluptatibus quia voluptatem quia nisi." },
-                new User { id = 2, code = "codigo2", name = "Antoinette Mayer", faculty = "Animi laboriosam voluptatum assumenda odit." }
+            modelBuilder.Entity<Customer>().HasData(
+                new Customer { id = 1, name = "customer1", rut = "20.416.853-9"},
+                new Customer { id = 2, name = "customer2", rut = "12.613.809-1"}
             );
-            modelBuilder.Entity<Book>().HasData(
-                new Book { id = 1, code = "codigolibro1", book = "Yvette Corwin V", description = "Ea non nesciunt distinctio aspernatur eum id id" },
-                new Book { id = 2, code = "codigolibro2", book = "Felipa Lindgren DVM", description = "lure quibusdam aut quo qui pariatur eum libero." }
+            modelBuilder.Entity<Dish>().HasData(
+                new Dish { id = 1, name = "Pollo con papas", price = 8000},
+                new Dish { id = 2, name = "Cazuela", price = 5000}
             );
-            modelBuilder.Entity<Reserve>().HasData(
-                new Reserve { id = 1, user_id = 1, book_id = 1, reserved_at = DateTime.Now.AddDays(-7) },
-                new Reserve { id = 2, user_id = 1, book_id = 2, reserved_at = DateTime.Now.AddDays(-100) },
-                new Reserve { id = 3, user_id = 2, book_id = 1, reserved_at = DateTime.Now.AddDays(-10) },
-                new Reserve { id = 4, user_id = 2, book_id = 2, reserved_at = DateTime.Now.AddDays(-1) }
+            modelBuilder.Entity<Purchase>().HasData(
+                new Purchase { id = 1, customer_id = 1, dish_id = 1, created_at = DateTime.Now.AddDays(-7), updated_at = DateTime.Now.AddDays(-7)  },
+                new Purchase { id = 2, customer_id = 1, dish_id = 2, created_at = DateTime.Now.AddDays(-100), updated_at = DateTime.Now.AddDays(-100) },
+                new Purchase { id = 3, customer_id = 2, dish_id = 1, created_at = DateTime.Now.AddDays(-10), updated_at = DateTime.Now.AddDays(-10) }
             );
             base.OnModelCreating(modelBuilder);
         }

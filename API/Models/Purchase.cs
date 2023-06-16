@@ -3,21 +3,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API
 {
-    public class Reserve
+    public class Purchase
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
         [Required]
-        [ForeignKey("user_id")]
-        public int user_id { get; set; }
+        [ForeignKey("customer_id")]
+        public int customer_id { get; set; }
         
         [Required]
-        [ForeignKey("book_id")]
-        public int book_id { get; set; }
+        [ForeignKey("dish_id")]
+        public int dish_id { get; set; }
 
         [Required]
-        public DateTime? reserved_at { get; set;}
+        public DateTime created_at { get; set;}
+        
+        [Required]
+        public DateTime updated_at { get; set;}
+
     }
 }
